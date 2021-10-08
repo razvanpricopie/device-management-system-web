@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="full-height full-width" style="padding-top:160px;" fxLayout="column" fxLayoutGap="32px"
+    fxLayoutAlign="center center">
+    <div fxLayout="column" fxLayoutGap="128px" fxLayoutAlign="start center">
+        <mat-card class="content">
+            <form #form="ngForm" (ngSubmit)="login(form)" fxLayout="column" fxLayoutGap="4px"
+                fxLayoutAlign="center center">
+                <mat-icon style="font-size: 75px;width: 75px; height: 75px; padding-bottom: 32px; padding-top: 32px;" color="primary">login</mat-icon>
+                <mat-form-field fxFill>
+                    <mat-label>Email</mat-label>
+                    <input matInput [(ngModel)]="email" name="email" required>
+                </mat-form-field>
+                <mat-form-field fxFill>
+                    <mat-label>Password</mat-label>
+                    <input matInput [(ngModel)]="password" name="password" type="password" required>
+                </mat-form-field>
+                <mat-error [style.opacity]="invalidCredentials ? 1 : 0" color="warn">Invalid credentials</mat-error>
+                <button class="full-width" mat-flat-button type="submit" color="primary">
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <span *ngIf="!loading">Login</span>
+                        <mat-spinner [diameter]="25" *ngIf="loading"></mat-spinner>
+                        <span *ngIf="loading" style="opacity: 0;">.</span>
+                    </div>
+                </button>
+                <button class="full-width" mat-flat-button color="primary" type="button"
+                    (click)="goToRegister()">Register</button>
+            </form>
+        </mat-card>
+    </div>
+</div>

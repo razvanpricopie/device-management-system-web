@@ -1,1 +1,31 @@
-<p>register works!</p>
+<div class="full-height full-width" style="padding-top:160px;" fxLayout="column" fxLayoutGap="32px"
+    fxLayoutAlign="center center">
+    <div fxLayout="column" fxLayoutGap="128px" fxLayoutAlign="start center">
+        <mat-card class="content">
+            <form #registerForm="ngForm" (ngSubmit)="register(registerForm)" fxLayout="column" fxLayoutGap="4px"
+                fxLayoutAlign="center center">
+                <mat-icon style="font-size: 75px;width: 75px; height: 75px; padding-bottom: 32px; padding-top: 32px;"
+                    color="primary">app_registration</mat-icon>
+                <mat-form-field fxFill>
+                    <mat-label>Email</mat-label>
+                    <input matInput [(ngModel)]="email" name="email" type="email" required>
+                </mat-form-field>
+                <mat-form-field fxFill>
+                    <mat-label>Name</mat-label>
+                    <input matInput [(ngModel)]="name" name="name" required>
+                </mat-form-field>
+                <mat-form-field fxFill>
+                    <mat-label>Password</mat-label>
+                    <input matInput [(ngModel)]="password" name="password" type="password" required>
+                </mat-form-field>
+                <mat-card-actions fxFill fxLayout="column" fxLayoutGap="4px" style="padding-top: 24px">
+                    <button class="full-width" mat-flat-button type="submit" color="primary">
+                        Register
+                    </button>
+                    <button class="full-width" mat-flat-button color="primary" type="button"
+                        (click)="goToLogin()">Go To Login</button>
+                </mat-card-actions>
+            </form>
+        </mat-card>
+    </div>
+</div>
