@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './libs/guards/auth.guard';
+import { LoggedInAuthGuard } from './libs/guards/logged-in-auth.guard';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    canActivate: [LoggedInAuthGuard]
   },
   { path: '', pathMatch: 'full', redirectTo: 'app' },
 ];

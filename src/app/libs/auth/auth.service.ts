@@ -27,7 +27,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http.post(`${this.basePath}/api/auth/login`, { email: email, password: password }).pipe(map((email: any) => {
-      localStorage.setItem('user', JSON.stringify(email));
+      localStorage.setItem('email', JSON.stringify(email));
       this.userSubject.next(email);
     }));
   }
