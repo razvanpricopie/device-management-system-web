@@ -12,7 +12,7 @@ import { DeviceService } from 'src/app/libs/services/device.service';
 export class LayoutComponent implements OnInit {
   mobileQuery: MediaQueryList;
   showSpinner = false;
-  userName = '';
+  name = '';
   isAdmin = false;
   user: any;
   private _mobileQueryListener: () => void;
@@ -23,14 +23,13 @@ export class LayoutComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.userName = this.authService.userValue.email ? this.authService.userValue.email : '';
+    this.name = this.authService.userValue.name ? this.authService.userValue.name : '';
     this.user = this.authService.userValue;
     // this.isAdmin = this.checkAdmin(this.user);
   }
 
   async ngOnInit(){
-    const result = await this.deviceService.getById(1).toPromise();
-    console.log(result);
+    
   }
 
   // checkAdmin(user: any){

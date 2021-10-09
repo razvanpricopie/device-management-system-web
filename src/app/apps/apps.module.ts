@@ -2,13 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppsRoutingModule } from './apps-routing.module';
+import { DevicesComponent } from './devices/devices.component';
+import { DevicesModule } from './devices/devices.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
-    AppsRoutingModule
+    AppsRoutingModule,
+    DevicesModule
   ]
 })
 export class AppsModule { }

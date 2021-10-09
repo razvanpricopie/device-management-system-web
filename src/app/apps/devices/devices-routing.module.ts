@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DevicesComponent } from './devices.component';
 
 const routes: Routes = [
   {
     path: '',
-    children: [
-      {
-        path: 'devices-list',
-        loadChildren: () =>
-          import('../apps/devices/devices.module').then((m) => m.DevicesModule),
-      },
-    ],
+    component: DevicesComponent
+  },
+  {
+    path: '**',
+    redirectTo: ''
   },
 ];
 
@@ -18,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppsRoutingModule { }
+export class DevicesRoutingModule { }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Device } from '../models/device';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,23 @@ export class DeviceService {
   
   constructor(private http: HttpClient) { }
 
-  getById(id: number){
+  getAll(){
+    return this.http.get(`${this.basePath}/api/device`);
+  }
+
+  getById(id: string){
     return this.http.get(`${this.basePath}/api/device/${id}`);
+  }
+
+  createDevice(device: Device){
+    return this.http.post(`${this.basePath}/api/device`, device);
+  }
+
+  updateDevice(id: number, updatedDevice: Device){
+    return this.http.put(`${this.basePath}/api/device/${id}`, updatedDevice);
+  }
+
+  deleteDevice(id: number){
+    return this.http.delete(`${this.basePath}/api/device/${id}`);
   }
 }

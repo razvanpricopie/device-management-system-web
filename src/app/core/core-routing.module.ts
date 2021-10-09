@@ -7,23 +7,12 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-			// {
-			// 	path: 'gps-tracker',
-			// 	loadChildren: () => import('../apps/home/home.module').then((m) => m.HomeModule),
-			// },
-			// {
-			// 	path: 'to-do-list',
-			// 	loadChildren: () => import('../apps/to-do-page/to-do-page.module').then((m) => m.ToDoPageModule),
-			// },
-			// {
-			// 	path: 'about',
-			// 	loadChildren: () => import('../apps/about/about.module').then((m) => m.AboutModule),
-			// },
-			// {
-			// 	path: '**',
-			// 	redirectTo: 'gps-tracker',
-			// },
-		],
+      {
+        path: '',
+        loadChildren: () =>
+          import('../apps/apps.module').then((m) => m.AppsModule),
+      },
+    ],
   },
 ];
 @NgModule({
