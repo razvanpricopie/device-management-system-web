@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const email = this.authService.userValue;
-    if (email) {
+    if (email.token) {
       return true;
     }
     
