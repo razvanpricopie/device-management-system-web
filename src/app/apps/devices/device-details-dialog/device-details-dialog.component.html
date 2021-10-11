@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Device Details</h2>
+
+<div mat-dialog-content>
+    <div fxLayout="row" fxLayoutGap="128px">
+        <div fxLayout="row">
+            <div fxLayout="column" fxLayoutGap="8px">
+                <div fxLayout="row" fxLayoutGap="32px">
+                    <mat-label>Name: </mat-label>
+                    <span>{{ device.name }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="32px">
+                    <mat-label>OS: </mat-label>
+                    <span>{{ device.operatingSystem }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="32px">
+                    <mat-label>Processor: </mat-label>
+                    <span>{{ device.processor }}</span>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row">
+            <div fxLayout="column" fxLayoutGap="8px">
+                <div fxLayout="row" fxLayoutGap="32px">
+                    <mat-label>Manufacturer: </mat-label>
+                    <span>{{ device.manufacturer }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="32px">
+                    <mat-label>OS Version: </mat-label>
+                    <span>{{ device.osVersion }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="32px">
+                    <mat-label>RAM amount: </mat-label>
+                    <span>{{ device.ramAmount }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    
+    
+</div>

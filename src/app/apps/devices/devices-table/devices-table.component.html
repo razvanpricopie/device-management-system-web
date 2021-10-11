@@ -1,12 +1,40 @@
 <ngx-datatable 
-    class="material"
-    [headerHeight]="headerHeight"
-    [footerHeight]="50"
+    class="material striped" 
+    [headerHeight]="headerHeight" 
+    [footerHeight]="50" 
     [rowHeight]="rowHeight"
-    [scrollbarV]="true"
-    [rows]="rows"
-    [columns]="columns"
+    [scrollbarV]="true" 
+    [rows]="rows" 
+    [columns]="columns" 
+    [columnMode]="ColumnMode.force" 
+    (activate)="showDialog($event)"
+    style="height: 100%; width: 100%">
 
-    >
-    
 </ngx-datatable>
+
+<ng-template #nameTmpl let-row="row">
+    {{ row.name }}
+</ng-template>
+<ng-template #manufacturerTmpl let-row="row">
+    {{ row.manufacturer }}
+</ng-template>
+<ng-template #typeTmpl let-row="row">
+    {{ row.type }}
+</ng-template>
+<ng-template #userTmpl let-row="row">
+    <!-- {{ row.user }} -->
+    nobody
+</ng-template>
+<ng-template #buttonsTmpl>
+    <div fxLayout="row" (click)="$event.preventDefault(); $event.stopPropagation()">
+        <!-- <button mat-button matTooltip="Add a new device">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+        </button> -->
+        <button mat-button matTooltip="Update this device">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">update</mat-icon>
+        </button>
+        <button mat-button matTooltip="Delete this device">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+        </button>
+    </div>
+</ng-template>

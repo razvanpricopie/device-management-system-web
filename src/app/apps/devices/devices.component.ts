@@ -9,13 +9,15 @@ import { DevicesTableComponent } from './devices-table/devices-table.component';
   styleUrls: ['./devices.component.scss'],
 })
 export class DevicesComponent implements OnInit {
+
+
   @ViewChild(DevicesTableComponent) devicesTable?: DevicesTableComponent;
 
-  device: Device = {'name': 'test2', 'manufacturer': 'test', 'type':'test', 'operatingSystem':'test', 'osVersion':'test', 'processor':'test', 'ramAmount':'test'};
-
-  constructor(private http: DeviceService) {}
+  constructor() {}
 
   async ngOnInit() {
-    
   }
+
+
+
 }

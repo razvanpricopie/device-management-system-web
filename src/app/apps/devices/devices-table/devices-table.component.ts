@@ -1,5 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { MatDialog } from '@angular/material/dialog';
+import { TableColumn, ColumnMode } from '@swimlane/ngx-datatable';
+import { DeviceService } from 'src/app/libs/services/device.service';
+import { DeviceDetailsDialogComponent } from '../device-details-dialog/device-details-dialog.component';
 
 @Component({
   selector: 'app-devices-table',
@@ -8,74 +11,100 @@ import { TableColumn } from '@swimlane/ngx-datatable';
 })
 export class DevicesTableComponent implements OnInit {
 
-  string = 'bunaciara';
-  public rows = [];
+  public rows : any = [];
   public columns: TableColumn[] = [];
   public rowHeight = 60;
   public headerHeight = 50;
 
+  devices: any = [];
+
+  ColumnMode = ColumnMode;
+
+
   @ViewChild('myTable') table: any;
-  // @ViewChild('methodTmpl') methodTmpl: TemplateRef<any>;
+  @ViewChild('nameTmpl') nameTmpl?: TemplateRef<any>;
+  @ViewChild('manufacturerTmpl') manufacturerTmpl?: TemplateRef<any>;
+  @ViewChild('typeTmpl') typeTmpl?: TemplateRef<any>;
+  @ViewChild('userTmpl') operatingSystemTmpl?: TemplateRef<any>;
+  @ViewChild('buttonsTmpl') buttonsTmpl?: TemplateRef<any>;
+  @ViewChild('createButtonTmpl') createButtonTmpl?: TemplateRef<any>;
+  @ViewChild('updateButtonTmpl') updateButtonTmpl?: TemplateRef<any>;
+  @ViewChild('deleteButtonTmpl') deleteButtonTmpl?: TemplateRef<any>;
 
-  constructor() { }
+  constructor(private http: DeviceService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  async ngOnInit(){
+    await this.getAllDevices();
+    this.initColumns();
   }
 
   initColumns(){
     this.columns =[
       {
-        name: '',
-        width: 48,
-        canAutoResize: false,
-        sortable: false,
-        draggable: false,
-        headerCheckboxable: true,
-        checkboxable: true
-      },
-      {
         name: 'Name',
-        cellTemplate: this.string,
+        cellTemplate: this.nameTmpl,
         sortable: false,
-        width: 50,
+        width: 20,
+        resizeable: false
       },
       {
         name: 'Manufacturer',
-        cellTemplate: this.string,
+        cellTemplate: this.manufacturerTmpl,
         sortable: false,
-        width: 50,
+        width: 30,
       },
       {
         name: 'Type',
-        cellTemplate: this.string,
+        cellTemplate: this.typeTmpl,
         sortable: false,
-        width: 50,
+        width: 20,
       },
       {
-        name: 'Operating System (OS)',
-        cellTemplate: this.string,
+        name: 'User',
         sortable: false,
-        width: 50,
+        width: 20,
       },
       {
-        name: 'OS version',
-        cellTemplate: this.string,
+        name: 'Actions',
+        cellTemplate: this.buttonsTmpl,
         sortable: false,
-        width: 50,
-      },
-      {
-        name: 'Processor',
-        cellTemplate: this.string,
-        sortable: false,
-        width: 50,
-      },
-      {
-        name: 'RAM amount',
-        cellTemplate: this.string,
-        sortable: false,
-        width: 50,
+        width: 20,
+        
       }
     ]
+  }
+
+  async getAllDevices(){
+    const result = await this.http.getAll().toPromise();
+
+    if(result) this.rows = result;
+  }
+
+  async getDevice(id: number){
+    const result : any = await this.http.getById(id).toPromise();
+
+  }
+
+  getDeviceDetail(result: any){
+    return {
+      id: result.id,
+      name: result.name,
+      manufacturer: result.manufacturer,
+      type: result.type,
+      operatingSystem: result.operatingSystem,
+      osVersion: result.osVersion,
+      processor: result.processor,
+      ramAmount: result.ramAmount
+    }
+  }
+
+  showDialog(event: any){
+    if(event.type == 'click' && event.cellIndex !== 0){
+      this.dialog.open(DeviceDetailsDialogComponent, {
+        data: this.getDeviceDetail(event.row),
+        width: '500px',
+      });
+    }
   }
 
 }

@@ -15,7 +15,7 @@ export class DeviceService {
     return this.http.get(`${this.basePath}/api/device`);
   }
 
-  getById(id: string){
+  getById(id: number){
     return this.http.get(`${this.basePath}/api/device/${id}`);
   }
 
