@@ -10,6 +10,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('../apps/devices/devices.module').then((m) => m.DevicesModule),
       },
+      {
+        path: 'users-list',
+        loadChildren: () =>
+          import('../apps/users/users.module').then((m) => m.UsersModule),
+      }
     ],
   },
 ];

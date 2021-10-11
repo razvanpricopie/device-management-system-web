@@ -33,10 +33,16 @@
                     <p mat-line>GPS tracker</p>
                 </a> -->
 
+                <a mat-list-item [routerLink]="['/app/users-list']" routerLinkActive="active">
+                    <mat-icon mat-list-icon> business </mat-icon>
+                    <p mat-line>Users List</p>
+                </a>
+                
                 <a mat-list-item [routerLink]="['/app/devices-list']" routerLinkActive="active">
                     <mat-icon mat-list-icon> business </mat-icon>
                     <p mat-line>Devices List</p>
                 </a>
+
 
                 <a id="push-bottom" mat-list-item [routerLink]="['/app/about']" routerLinkActive="active">
                     <mat-icon mat-list-icon> info_outline </mat-icon>

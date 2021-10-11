@@ -1,0 +1,25 @@
+<ngx-datatable
+class="material striped" 
+    [headerHeight]="headerHeight" 
+    [footerHeight]="50" 
+    [rowHeight]="rowHeight"
+    [scrollbarV]="true" 
+    [rows]="rows" 
+    [columns]="columns" 
+    [columnMode]="ColumnMode.force" 
+    style="height: 100%; width: 100%">
+
+</ngx-datatable>
+
+<ng-template #emailTmpl let-row="row">
+    {{ row.email }}
+</ng-template>
+<ng-template #nameTmpl let-row="row">
+    {{ row.name }}
+</ng-template>
+
+<ng-template #buttonsTmpl let-row="row">
+    <button mat-button matTooltip="Delete this user" (click)="deleteUser(row)">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+    </button>
+</ng-template>

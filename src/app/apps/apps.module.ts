@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppsRoutingModule } from './apps-routing.module';
-import { DevicesComponent } from './devices/devices.component';
 import { DevicesModule } from './devices/devices.module';
-import { FormsModule } from '@angular/forms';
+import { UsersModule } from './users/users.module';
 
 
 @NgModule({
@@ -13,7 +12,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     AppsRoutingModule,
-    DevicesModule
+    DevicesModule,
+    UsersModule
   ]
 })
 export class AppsModule { }

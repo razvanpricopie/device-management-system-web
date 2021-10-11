@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TableColumn, ColumnMode } from '@swimlane/ngx-datatable';
-import { finalize, map, tap } from 'rxjs/operators';
 import { DeviceService } from 'src/app/libs/services/device.service';
 import { DeviceDetailsDialogComponent } from '../device-details-dialog/device-details-dialog.component';
 import { DeviceUpdateDialogComponent } from '../device-update-dialog/device-update-dialog.component';
@@ -14,10 +13,9 @@ import { DeviceUpdateDialogComponent } from '../device-update-dialog/device-upda
 export class DevicesTableComponent implements OnInit {
   public rows: any = [];
   public columns: TableColumn[] = [];
-  public rowHeight = 60;
-  public headerHeight = 50;
+  public rowHeight = 40;
+  public headerHeight = 40;
 
-  devices: any = [];
 
   ColumnMode = ColumnMode;
 
@@ -27,9 +25,9 @@ export class DevicesTableComponent implements OnInit {
   @ViewChild('typeTmpl') typeTmpl?: TemplateRef<any>;
   @ViewChild('userTmpl') operatingSystemTmpl?: TemplateRef<any>;
   @ViewChild('buttonsTmpl') buttonsTmpl?: TemplateRef<any>;
-  @ViewChild('createButtonTmpl') createButtonTmpl?: TemplateRef<any>;
-  @ViewChild('updateButtonTmpl') updateButtonTmpl?: TemplateRef<any>;
-  @ViewChild('deleteButtonTmpl') deleteButtonTmpl?: TemplateRef<any>;
+  // @ViewChild('createButtonTmpl') createButtonTmpl?: TemplateRef<any>;
+  // @ViewChild('updateButtonTmpl') updateButtonTmpl?: TemplateRef<any>;
+  // @ViewChild('deleteButtonTmpl') deleteButtonTmpl?: TemplateRef<any>;
 
   constructor(private http: DeviceService, private dialog: MatDialog) {}
 
@@ -81,9 +79,7 @@ export class DevicesTableComponent implements OnInit {
   }
 
   async getAllDevices() {
-    const result = await this.http.getAll().toPromise();
-
-    if (result) this.rows = result;
+    await this.http.getAll().toPromise().then((result) => this.rows = result);
   }
 
   async getDevice(id: number) {
