@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Device } from 'src/app/libs/models/device';
-import { DeviceService } from 'src/app/libs/services/device.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeviceCreateDialogComponent } from './device-create-dialog/device-create-dialog.component';
 import { DevicesTableComponent } from './devices-table/devices-table.component';
 
 @Component({
@@ -13,11 +13,16 @@ export class DevicesComponent implements OnInit {
 
   @ViewChild(DevicesTableComponent) devicesTable?: DevicesTableComponent;
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   async ngOnInit() {
   }
 
+  openAddDeviceDialog(){
+    this.dialog.open(DeviceCreateDialogComponent, {
+      width: '500px',
+    });
+  }
 
 
 }

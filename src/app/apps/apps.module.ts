@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AppsRoutingModule } from './apps-routing.module';
 import { DevicesComponent } from './devices/devices.component';
 import { DevicesModule } from './devices/devices.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({

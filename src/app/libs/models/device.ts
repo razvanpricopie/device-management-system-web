@@ -1,5 +1,5 @@
 export class Device{
-    id?: string;
+    id!: number;
     name?: string;
     manufacturer?: string;
     type?: string;

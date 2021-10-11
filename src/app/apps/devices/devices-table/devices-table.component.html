@@ -25,15 +25,15 @@
     <!-- {{ row.user }} -->
     nobody
 </ng-template>
-<ng-template #buttonsTmpl>
+<ng-template #buttonsTmpl let-row="row">
     <div fxLayout="row" (click)="$event.preventDefault(); $event.stopPropagation()">
         <!-- <button mat-button matTooltip="Add a new device">
             <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
         </button> -->
-        <button mat-button matTooltip="Update this device">
+        <button mat-button matTooltip="Update this device" (click)="updateDeviceDialog(row)">
             <mat-icon aria-hidden="false" aria-label="Example home icon">update</mat-icon>
         </button>
-        <button mat-button matTooltip="Delete this device">
+        <button mat-button matTooltip="Delete this device" (click)="deleteDevice(row)">
             <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
         </button>
     </div>
