@@ -1,0 +1,51 @@
+<section class="dialog mat-typography">
+    <form #form="ngForm" class="aboForm">
+      <p mat-dialog-title class="dialog--title">
+        <span *ngIf="!data?.title">{{'Trash'}}</span>
+        <span *ngIf="data?.title" [translate]="data?.title"></span>
+      </p>
+  
+      <div mat-dialog-content class="dialog--content">
+        <p *ngIf="!data?.text">{{'Are sure you want send to trash?'}}</p>
+        <p *ngIf="data?.text" [translate]="data?.text"></p>
+  
+        <div *ngIf="requireReason" class="formRow-m" fxLayout="row">
+          <mat-form-field fxFlex appearance="outline">
+            <mat-label *ngIf="!data?.reasonLabelText">{{'Reason of deletion'}}</mat-label>
+            <mat-label *ngIf="data?.reasonLabelText" [translate]="data?.reasonLabelText"></mat-label>
+            <textarea required matInput [(ngModel)]="reason" name="reason" maxlength="1024" cdkTextareaAutosize cdkAutosizeMinRows="4"></textarea>
+            <button matSuffix mat-icon-button (click)="reason = ''">
+              <mat-icon>clear</mat-icon>
+            </button>
+            <mat-error *ngIf="!data?.reasonErrorText">{{'In order to delete, a reason is required'}}</mat-error>
+            <mat-error *ngIf="data?.reasonErrorText" [translate]="data?.reasonErrorText"></mat-error>
+            <mat-hint align="end">{{reason?.length || '0'}} / 1024</mat-hint>
+          </mat-form-field>
+        </div>
+  
+        <div fxLayout="column" *ngIf="complexDeleteTextToReproduce">
+          <span translate>this is a sensitive item. to delete, rewrite this:</span>
+          <span translate style="font-family: monospace;">{{complexDeleteTextToReproduce}}</span>
+          <mat-form-field fxFlex appearance="outline">
+            <textarea matInput style="font-family: monospace;" [(ngModel)]="complexDeleteTextToReproduceInput" name="complexDeleteTextToReproduceInput"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+  
+      <div mat-dialog-actions class="dialog--actions">
+        <div class="dialog--actions--left"></div>
+        <div class="dialog--actions--right">
+          <button mat-flat-button class="dialog--actions--btn" type="button" mat-dialog-close>
+            <span translate>No</span>
+          </button>
+          <button mat-flat-button class="dialog--actions--btn" type="button" color="primary"
+            [disabled]="complexDeleteTextToReproduce ? complexDeleteTextToReproduce !== complexDeleteTextToReproduceInput : false"
+            (click)="closeDialog()" *ngIf="!informationalDialog">
+            <span translate *ngIf="!data?.confirmText">Yes</span>
+            <span [translate]="data?.confirmText" *ngIf="data?.confirmText"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+  

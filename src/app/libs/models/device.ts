@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export class Device{
     id!: number;
     name?: string;
@@ -9,4 +11,5 @@ export class Device{
     ramAmount?: string;
     isAssigned?: boolean;
     userId?: number;
+    user?: User;
 }

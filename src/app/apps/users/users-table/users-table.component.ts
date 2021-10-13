@@ -1,6 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ColumnMode, TableColumn } from '@swimlane/ngx-datatable';
+import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/libs/services/user.service';
+import { AreYouSureComponent } from 'src/shared/components/are-you-sure/are-you-sure.component';
 
 @Component({
   selector: 'app-users-table',
@@ -8,10 +11,11 @@ import { UserService } from 'src/app/libs/services/user.service';
   styleUrls: ['./users-table.component.scss']
 })
 export class UsersTableComponent implements OnInit {
-  public rows: any = [];
-  public columns: TableColumn[] = [];
-  public rowHeight = 55;
-  public headerHeight = 40;
+  rows: any = [];
+  columns: TableColumn[] = [];
+  rowHeight = 55;
+  headerHeight = 40;
+  loading = false;
 
   ColumnMode = ColumnMode;
 
@@ -21,8 +25,7 @@ export class UsersTableComponent implements OnInit {
   @ViewChild('buttonsTmpl') buttonsTmpl?: TemplateRef<any>;
   @ViewChild('deleteButtonTmpl') deleteButtonTmpl?: TemplateRef<any>;
 
-  constructor(private http: UserService) { }
-
+  constructor(private userService: UserService,private dialog: MatDialog) { }
 
   async ngOnInit() {
     await this.getAllUsers();
@@ -60,16 +63,28 @@ export class UsersTableComponent implements OnInit {
     ];
   }
 
-  async getAllUsers() {
-    await this.http.getAll().toPromise().then((result) => this.rows =result);
 
-    // if (result) this.rows = result;
+  async getAllUsers() {
+    this.loading = true;
+    await this.userService.getAll().pipe(finalize(()=>(this.loading = false))).toPromise().then((result) => this.rows =result);
   }
 
   async deleteUser(row: any) {
-    await this.http
+    const isSure = await this.openAreYouSureDialog();
+    if (!isSure) return;
+
+    await this.userService
       .deleteUser(row.id)
       .toPromise()
       .then(() => this.getAllUsers());
+  }
+  
+  openAreYouSureDialog() {
+    return this.dialog
+      .open(AreYouSureComponent, {
+        width: '340px'
+      })
+      .afterClosed()
+      .toPromise();
   }
 }

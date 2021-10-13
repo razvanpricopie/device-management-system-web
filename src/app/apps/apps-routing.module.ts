@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from '../libs/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -14,13 +15,14 @@ const routes: Routes = [
         path: 'users-list',
         loadChildren: () =>
           import('../apps/users/users.module').then((m) => m.UsersModule),
-      }
+        canActivate: [AdminGuard],
+      },
     ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppsRoutingModule { }
+export class AppsRoutingModule {}

@@ -1,3 +1,4 @@
+<app-loading *ngIf="loading"></app-loading>
 <div fxLayoutAlign="end center" style="margin-bottom: 16px; margin-top: 16px; margin-right: 16px;">
     <button mat-button matTooltip="Create new device" (click)="openAddDeviceDialog()">
         <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
@@ -16,22 +17,22 @@
     {{ row.manufacturer }}
 </ng-template>
 <ng-template #typeTmpl let-row="row">
-    {{ row.type }}
+    {{ row.type === 1 ? 'Laptop' : 'Tablet' }}
 </ng-template>
 <ng-template #userTmpl let-row="row">
-    <!-- {{ getUserById(row.userId) }} -->
-    HERE!!!
+    {{ row.user?.email ? row.user.email : 'Unassigned' }}
 </ng-template>
 <ng-template #buttonsTmpl let-row="row">
     <div fxLayout="row" (click)="$event.preventDefault(); $event.stopPropagation()">
-        <button mat-button matTooltip="Edit this device" (click)="updateDeviceDialog(row)">
+        <button *ngIf="isAdmin" mat-button matTooltip="Edit this device" (click)="updateDeviceDialog(row)">
             <mat-icon aria-hidden="false">edit</mat-icon>
         </button>
-        <button mat-button matTooltip="Delete this device" (click)="deleteDevice(row)">
+        <button *ngIf="isAdmin" mat-button matTooltip="Delete this device" (click)="deleteDevice(row)">
             <mat-icon aria-hidden="false">delete</mat-icon>
         </button>
 
-        <ng-container *ngIf="row.isAssigned && checkDeviceUserId(row); then thenTemplate; else elseTemplate"></ng-container>
+        <ng-container *ngIf="row.isAssigned && checkDeviceUserId(row); then thenTemplate; else elseTemplate">
+        </ng-container>
         <ng-template #thenTemplate>
             <button mat-button matTooltip="Unassign this device to you" (click)="unassignDevice(row)">
                 <mat-icon aria-hidden="false">remove_circle_outline</mat-icon>
@@ -42,6 +43,6 @@
                 <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
             </button>
         </ng-template>
-        
+
     </div>
 </ng-template>

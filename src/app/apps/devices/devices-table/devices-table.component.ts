@@ -1,10 +1,13 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TableColumn, ColumnMode } from '@swimlane/ngx-datatable';
+import { finalize, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/libs/auth/auth.service';
 import { Device } from 'src/app/libs/models/device';
+import { User } from 'src/app/libs/models/user';
 import { DeviceService } from 'src/app/libs/services/device.service';
 import { UserService } from 'src/app/libs/services/user.service';
+import { AreYouSureComponent } from 'src/shared/components/are-you-sure/are-you-sure.component';
 import { DeviceDetailsDialogComponent } from '../device-details-dialog/device-details-dialog.component';
 import { DeviceUpdateDialogComponent } from '../device-update-dialog/device-update-dialog.component';
 
@@ -14,14 +17,16 @@ import { DeviceUpdateDialogComponent } from '../device-update-dialog/device-upda
   styleUrls: ['./devices-table.component.scss'],
 })
 export class DevicesTableComponent implements OnInit {
-  public rows: any = [];
-  public columns: TableColumn[] = [];
-  public rowHeight = 55;
-  public headerHeight = 40;
+  rows: any = [];
+  columns: TableColumn[] = [];
+  rowHeight = 55;
+  headerHeight = 40;
+  loading = false;
+  ColumnMode = ColumnMode;
+  isAdmin = false;
+  user: any;
 
   device: Device = new Device();
-
-  ColumnMode = ColumnMode;
 
   @ViewChild('myTable') table: any;
   @ViewChild('nameTmpl') nameTmpl?: TemplateRef<any>;
@@ -33,8 +38,11 @@ export class DevicesTableComponent implements OnInit {
   constructor(
     private deviceService: DeviceService,
     private dialog: MatDialog,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+  ) {
+    this.user = this.authService.userValue;
+    this.isAdmin = this.checkAdmin(this.user);
+  }
 
   async ngOnInit() {
     await this.getAllDevices();
@@ -68,18 +76,26 @@ export class DevicesTableComponent implements OnInit {
         width: 5,
       },
       {
+        name: 'Assigned by',
+        cellTemplate: this.userTmpl,
+        sortable: false,
+        width: 5,
+        prop: this.rows.user,
+      },
+      {
         name: 'Actions',
         cellTemplate: this.buttonsTmpl,
         sortable: false,
         width: 10,
-        
       },
     ];
   }
 
   async getAllDevices() {
+    this.loading = true;
     await this.deviceService
       .getAll()
+      .pipe(finalize(()=>(this.loading = false)))
       .toPromise()
       .then((result) => (this.rows = result));
   }
@@ -138,10 +154,22 @@ export class DevicesTableComponent implements OnInit {
   }
 
   async deleteDevice(row: any) {
+    const isSure = await this.openAreYouSureDialog();
+    if (!isSure) return;
+
     await this.deviceService
       .deleteDevice(row.id)
       .toPromise()
       .then(() => this.getAllDevices());
+  }
+  
+  openAreYouSureDialog() {
+    return this.dialog
+      .open(AreYouSureComponent, {
+        width: '340px'
+      })
+      .afterClosed()
+      .toPromise();
   }
 
   async assignDevice(row: any) {
@@ -154,6 +182,14 @@ export class DevicesTableComponent implements OnInit {
       });
   }
 
+  checkAdmin(user: any){
+    let isAdmin = false;
+    user.role?.forEach((role : any) => {
+      if(role.name === "Admin") isAdmin = true;
+    });
+    return isAdmin;
+  }
+
   async unassignDevice(row: any) {
     this.device.userId = this.authService.userValue.id;
     await this.deviceService
@@ -164,8 +200,8 @@ export class DevicesTableComponent implements OnInit {
       });
   }
 
-  checkDeviceUserId(row: any){
-    if(row.userId == this.authService.userValue.id) return true
-      return false;
+  checkDeviceUserId(row: any) {
+    if (row.userId == this.authService.userValue.id) return true;
+    return false;
   }
 }
