@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Device } from 'src/app/libs/models/device';
 
 @Component({
@@ -10,7 +10,7 @@ import { Device } from 'src/app/libs/models/device';
 export class DeviceDetailsDialogComponent implements OnInit {
   device: Device = new Device();
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any) { }
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private dialog: MatDialogRef<DeviceDetailsDialogComponent>) { }
 
   ngOnInit(): void {
     if(this.data.id){
@@ -25,6 +25,10 @@ export class DeviceDetailsDialogComponent implements OnInit {
         ramAmount: this.data.ramAmount,
       };
     }
+  }
+
+  close(){
+    this.dialog.close();
   }
 
 }

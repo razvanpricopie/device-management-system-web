@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -18,6 +19,7 @@ export class DeviceUpdateDialogComponent implements OnInit {
   enumKeys = [];
   device: Device;
   type = 1;
+  errorMessage ='';
   
   
   constructor(
@@ -26,7 +28,6 @@ export class DeviceUpdateDialogComponent implements OnInit {
     private dialog: MatDialogRef<DeviceUpdateDialogComponent>,
   ) {
     this.device = this.data;
-    console.log(this.device);
   }
 
   ngOnInit() {
@@ -61,8 +62,14 @@ export class DeviceUpdateDialogComponent implements OnInit {
   }
 
   async createDevice(){
-    await this.deviceService.createDevice(this.device).pipe(finalize(()=>{
-      this.dialog.close(true);
-    })).toPromise();
+    const result = await this.deviceService.createDevice(this.device).subscribe((res: any)=>{
+      console.log(result);
+    }, error => {
+      this.errorMessage = error.error;
+    })
+  }
+
+  close(){
+    this.dialog.close();
   }
 }

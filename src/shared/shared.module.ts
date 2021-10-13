@@ -5,13 +5,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AreYouSureComponent } from './components/are-you-sure/are-you-sure.component';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from './components/loading/loading/loading.component';
+import { AlertSnackbarComponent } from './components/alert-snackbar/alert-snackbar.component';
 
 
 
 @NgModule({
   declarations: [
     AreYouSureComponent,
-    LoadingComponent
+    LoadingComponent,
+    AlertSnackbarComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { LoadingComponent } from './components/loading/loading/loading.component
   exports: [
     AngularMaterialModule,
     FlexLayoutModule,
-    LoadingComponent
+    LoadingComponent,
+    AlertSnackbarComponent
   ]
 })
 export class SharedModule { }

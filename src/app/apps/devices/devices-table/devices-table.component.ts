@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableColumn, ColumnMode } from '@swimlane/ngx-datatable';
 import { finalize, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/libs/auth/auth.service';
@@ -7,6 +8,7 @@ import { Device } from 'src/app/libs/models/device';
 import { User } from 'src/app/libs/models/user';
 import { DeviceService } from 'src/app/libs/services/device.service';
 import { UserService } from 'src/app/libs/services/user.service';
+import { AlertSnackbarComponent } from 'src/shared/components/alert-snackbar/alert-snackbar.component';
 import { AreYouSureComponent } from 'src/shared/components/are-you-sure/are-you-sure.component';
 import { DeviceDetailsDialogComponent } from '../device-details-dialog/device-details-dialog.component';
 import { DeviceUpdateDialogComponent } from '../device-update-dialog/device-update-dialog.component';
@@ -24,7 +26,9 @@ export class DevicesTableComponent implements OnInit {
   loading = false;
   ColumnMode = ColumnMode;
   isAdmin = false;
+  rowAssigned = false;
   user: any;
+  errorMessage ='';
 
   device: Device = new Device();
 
@@ -39,6 +43,7 @@ export class DevicesTableComponent implements OnInit {
     private deviceService: DeviceService,
     private dialog: MatDialog,
     private authService: AuthService,
+    private _snackBar: MatSnackBar
   ) {
     this.user = this.authService.userValue;
     this.isAdmin = this.checkAdmin(this.user);
@@ -98,7 +103,8 @@ export class DevicesTableComponent implements OnInit {
       .pipe(finalize(()=>(this.loading = false)))
       .toPromise()
       .then((result) => (this.rows = result));
-  }
+
+    }
 
   async getDevice(id: number) {
     const result: any = await this.deviceService.getById(id).toPromise();
@@ -174,12 +180,23 @@ export class DevicesTableComponent implements OnInit {
 
   async assignDevice(row: any) {
     this.device.userId = this.authService.userValue.id;
-    await this.deviceService
+    const result = await this.deviceService
       .assignDevice(row.id, this.device)
-      .toPromise()
-      .then(() => {
+      .subscribe((res: any)=>{
+        console.log(result);
+      }, error => {
+        this.errorMessage = error.error;
+         this.openSnackBar();
+      }, () => {
         this.getAllDevices();
-      });
+      })
+      
+      // .toPromise()
+      // .then(() => {
+      //   this.getAllDevices();
+      // });
+
+
   }
 
   checkAdmin(user: any){
@@ -204,4 +221,12 @@ export class DevicesTableComponent implements OnInit {
     if (row.userId == this.authService.userValue.id) return true;
     return false;
   }
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(AlertSnackbarComponent, {
+      duration: 5000,
+      data: this.errorMessage
+    });
+  }
+
 }

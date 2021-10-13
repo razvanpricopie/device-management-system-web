@@ -5,6 +5,8 @@
     </button>
 </div>
 
+
+
 <ngx-datatable class="material striped full-width" [headerHeight]="headerHeight" [footerHeight]="50"
     [rowHeight]="rowHeight" [scrollbarV]="true" [rows]="rows" [columns]="columns" [columnMode]="ColumnMode.force"
     (activate)="showDialog($event)" style="height: calc(100vh - 150px); margin-left: 16px; margin-right: 16px;">
@@ -31,6 +33,19 @@
             <mat-icon aria-hidden="false">delete</mat-icon>
         </button>
 
+        <!-- <button *ngIf="!row.isAssigned && checkDeviceUserId(row)" mat-button matTooltip="Assign this device" (click)="assignDevice(row)">
+            <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
+        </button> -->
+
+        <!-- <button mat-button matTooltip="Assign this device" (click)="assignDevice(row)">
+            <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
+        </button>
+
+        <button mat-button matTooltip="Unassing this device" (click)="unassignDevice(row)">
+            <mat-icon aria-hidden="false">remove_circle_outline</mat-icon>
+        </button> -->
+
+
         <ng-container *ngIf="row.isAssigned && checkDeviceUserId(row); then thenTemplate; else elseTemplate">
         </ng-container>
         <ng-template #thenTemplate>
@@ -39,10 +54,9 @@
             </button>
         </ng-template>
         <ng-template #elseTemplate>
-            <button mat-button matTooltip="Assign this device to you" (click)="assignDevice(row)">
+            <button  mat-button matTooltip="Assign this device to you" (click)="assignDevice(row)">
                 <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
             </button>
-        </ng-template>
-
+        </ng-template> 
     </div>
 </ng-template>

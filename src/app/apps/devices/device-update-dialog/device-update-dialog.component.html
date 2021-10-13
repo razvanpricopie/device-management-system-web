@@ -5,7 +5,7 @@
     <div mat-dialog-title>Create a new device</div>
 </ng-template>
 
-<form #updateForm="ngForm" (ngSubmit)="submit(updateForm)" fxLayout="column">
+<form #updateForm="ngForm" (ngSubmit)="submit(updateForm)" fxLayout="column" style="height: 300px;">
     <div fxLayout="row" fxLayoutGap="16px">
         <mat-form-field style="width: initial;">
             <mat-label>Name</mat-label>
@@ -46,9 +46,22 @@
             <input matInput [(ngModel)]="device.ramAmount" name="ramAmount" required>
         </mat-form-field>
     </div>
-    <mat-dialog-actions>
-        <button mat-flat-button type="submit" color="primary">
-            Update
-        </button>
+    <mat-dialog-actions fxLayout="row">
+        <div fxLayout="row">
+            <div mat-dialog-actions>
+                <button mat-flat-button type="submit" color="warning" (click)="close()">
+                    Close
+                </button>    
+                <button mat-flat-button type="submit" color="primary">
+                    <ng-container *ngIf="device.id; else elseTemplate1">
+                        Update
+                    </ng-container>
+                    <ng-template #elseTemplate1>
+                        Create
+                    </ng-template>
+                </button>
+            </div>
+        </div>
+        <span *ngIf="errorMessage" style="color: red">{{ errorMessage }}</span>
     </mat-dialog-actions>
 </form>
