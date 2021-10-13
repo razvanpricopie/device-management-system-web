@@ -1,15 +1,12 @@
-<ngx-datatable 
-    class="material striped" 
-    [headerHeight]="headerHeight" 
-    [footerHeight]="50" 
-    [rowHeight]="rowHeight"
-    [scrollbarV]="true" 
-    [rows]="rows" 
-    [columns]="columns" 
-    [columnMode]="ColumnMode.force" 
-    (activate)="showDialog($event)"
-    style="height: 100%; width: 100%">
+<div fxLayoutAlign="end center" style="margin-bottom: 16px; margin-top: 16px; margin-right: 16px;">
+    <button mat-button matTooltip="Create new device" (click)="openAddDeviceDialog()">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+    </button>
+</div>
 
+<ngx-datatable class="material striped full-width" [headerHeight]="headerHeight" [footerHeight]="50"
+    [rowHeight]="rowHeight" [scrollbarV]="true" [rows]="rows" [columns]="columns" [columnMode]="ColumnMode.force"
+    (activate)="showDialog($event)" style="height: calc(100vh - 150px); margin-left: 16px; margin-right: 16px;">
 </ngx-datatable>
 
 <ng-template #nameTmpl let-row="row">
@@ -22,16 +19,29 @@
     {{ row.type }}
 </ng-template>
 <ng-template #userTmpl let-row="row">
-    <!-- {{ row.user }} -->
-    nobody
+    <!-- {{ getUserById(row.userId) }} -->
+    HERE!!!
 </ng-template>
 <ng-template #buttonsTmpl let-row="row">
     <div fxLayout="row" (click)="$event.preventDefault(); $event.stopPropagation()">
-        <button mat-button matTooltip="Update this device" (click)="updateDeviceDialog(row)">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">update</mat-icon>
+        <button mat-button matTooltip="Edit this device" (click)="updateDeviceDialog(row)">
+            <mat-icon aria-hidden="false">edit</mat-icon>
         </button>
         <button mat-button matTooltip="Delete this device" (click)="deleteDevice(row)">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+            <mat-icon aria-hidden="false">delete</mat-icon>
         </button>
+
+        <ng-container *ngIf="row.isAssigned && checkDeviceUserId(row); then thenTemplate; else elseTemplate"></ng-container>
+        <ng-template #thenTemplate>
+            <button mat-button matTooltip="Unassign this device to you" (click)="unassignDevice(row)">
+                <mat-icon aria-hidden="false">remove_circle_outline</mat-icon>
+            </button>
+        </ng-template>
+        <ng-template #elseTemplate>
+            <button mat-button matTooltip="Assign this device to you" (click)="assignDevice(row)">
+                <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
+            </button>
+        </ng-template>
+        
     </div>
 </ng-template>

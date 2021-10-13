@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/libs/auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   email = '';
@@ -14,30 +14,27 @@ export class LoginComponent {
   invalidCredentials = false;
   loading = false;
 
-  constructor(protected authService: AuthService, protected router: Router) { }
+  constructor(protected authService: AuthService, protected router: Router) {}
 
   async login(form: NgForm) {
     this.invalidCredentials = false;
     if (form.invalid) return;
     try {
-      this.loading = true;
-      const result = await this.authService.login(this.email, this.password).toPromise();
-
-      this.router.navigateByUrl('/app');
-
-      // if(!this.checkAdmin(result)) this.router.navigateByUrl('/app/to-do-list');
-      // else this.router.navigateByUrl('/app/gps-tracker');
+      const result = await this.authService
+        .login(this.email, this.password)
+        .toPromise();
+      if (!this.checkAdmin(result))
+        this.router.navigateByUrl('/app/devices-list');
+      else this.router.navigateByUrl('/app/users-list');
     } catch (e) {
       this.invalidCredentials = true;
-    } finally {
-      this.loading = false;
     }
   }
 
-  checkAdmin(user: any){
+  checkAdmin(user: any) {
     let isAdmin = false;
-    user.roles.forEach((role : any) => {
-      if(role.role === "ADMIN") isAdmin = true;
+    user.role?.forEach((role: any) => {
+      if (role.name === 'Admin') isAdmin = true;
     });
     return isAdmin;
   }

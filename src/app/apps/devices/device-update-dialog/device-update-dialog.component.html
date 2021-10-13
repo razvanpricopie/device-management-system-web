@@ -1,8 +1,13 @@
-<div mat-dialog-title>Update device - {{ device.manufacturer }}, {{ device.name }}</div>
+<ng-container *ngIf="device.id; else elseTemplate">
+    <div mat-dialog-title>Update device</div>
+</ng-container>
+<ng-template #elseTemplate>
+    <div mat-dialog-title>Create a new device</div>
+</ng-template>
 
-<form #updateForm="ngForm" (ngSubmit)="update(updateForm)" fxLayout="column">
-    <div fxLayout="row">
-        <mat-form-field>
+<form #updateForm="ngForm" (ngSubmit)="submit(updateForm)" fxLayout="column">
+    <div fxLayout="row" fxLayoutGap="16px">
+        <mat-form-field style="width: initial;">
             <mat-label>Name</mat-label>
             <input matInput [(ngModel)]="device.name" name="name" required>
         </mat-form-field>
@@ -11,13 +16,17 @@
             <input matInput [(ngModel)]="device.manufacturer" name="manufacturer" required>
         </mat-form-field>
     </div>
-    <div fxLayout="row">
+    <div fxLayout="row" fxLayoutGap="16px">
         <mat-form-field>
             <mat-label>Type</mat-label>
-            <input matInput [(ngModel)]="device.type" name="type" required>
+            <mat-select [(ngModel)]="device.type" name="type">
+                <mat-option *ngFor="let item of deviceTypes" [value]="item.id">
+                    {{ item.name }}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
     </div>
-    <div fxLayout="row">
+    <div fxLayout="row" fxLayoutGap="16px">
         <mat-form-field>
             <mat-label>Operating System</mat-label>
             <input matInput [(ngModel)]="device.operatingSystem" name="operatingSystem" required>
@@ -27,7 +36,7 @@
             <input matInput [(ngModel)]="device.osVersion" name="osVersion" required>
         </mat-form-field>
     </div>
-    <div fxLayout="row">
+    <div fxLayout="row" fxLayoutGap="16px">
         <mat-form-field>
             <mat-label>Processor</mat-label>
             <input matInput [(ngModel)]="device.processor" name="processor" required>
@@ -37,7 +46,6 @@
             <input matInput [(ngModel)]="device.ramAmount" name="ramAmount" required>
         </mat-form-field>
     </div>
-    <input type="hidden" name="_METHOD" value="PUT"/>
     <mat-dialog-actions>
         <button mat-flat-button type="submit" color="primary">
             Update

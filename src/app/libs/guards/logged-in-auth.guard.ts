@@ -16,7 +16,7 @@ export class LoggedInAuthGuard implements CanActivate {
     state: RouterStateSnapshot){
       const user = this.authService.userValue;
       if(user.token){
-        this.router.navigate(['/app'], { queryParams: { returnUrl: state.url } });
+        this.router.navigate(['/app/devices-list'], { queryParams: { returnUrl: state.url } });
         return false;
       }
 

@@ -25,20 +25,20 @@ export class LayoutComponent implements OnInit {
 
     this.name = this.authService.userValue.name ? this.authService.userValue.name : '';
     this.user = this.authService.userValue;
-    // this.isAdmin = this.checkAdmin(this.user);
+    this.isAdmin = this.checkAdmin(this.user);
   }
 
   async ngOnInit(){
     
   }
 
-  // checkAdmin(user: any){
-  //   let isAdmin = false;
-  //   user.roles.forEach((role : any) => {
-  //     if(role.role === "ADMIN") isAdmin = true;
-  //   });
-  //   return isAdmin;
-  // }
+  checkAdmin(user: any){
+    let isAdmin = false;
+    user.role?.forEach((role : any) => {
+      if(role.name === "Admin") isAdmin = true;
+    });
+    return isAdmin;
+  }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);

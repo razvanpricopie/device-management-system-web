@@ -1,23 +1,36 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { finalize } from 'rxjs/operators';
+import { DeviceTypes } from 'src/app/libs/enums/device-type';
+import { EnumUtils } from 'src/app/libs/enums/enum-utils';
 import { Device } from 'src/app/libs/models/device';
 import { DeviceService } from 'src/app/libs/services/device.service';
 
 @Component({
   selector: 'app-device-update-dialog',
   templateUrl: './device-update-dialog.component.html',
-  styleUrls: ['./device-update-dialog.component.scss']
+  styleUrls: ['./device-update-dialog.component.scss'],
 })
 export class DeviceUpdateDialogComponent implements OnInit {
   @ViewChild('updateForm') updateForm?: NgForm;
-  device: Device = new Device();
+  deviceTypes = EnumUtils.listEnum(DeviceTypes);
+  enumKeys = [];
+  device: Device;
+  type = 1;
+  
+  
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private deviceService: DeviceService,
+    private dialog: MatDialogRef<DeviceUpdateDialogComponent>,
+  ) {
+    this.device = this.data;
+    console.log(this.device);
+  }
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private http: DeviceService, private router: Router) { }
-
-  ngOnInit(){
-    if(this.data.id){
+  ngOnInit() {
+    if (this.device) {
       this.device = {
         id: this.data.id,
         name: this.data.name,
@@ -29,15 +42,27 @@ export class DeviceUpdateDialogComponent implements OnInit {
         ramAmount: this.data.ramAmount,
       };
     }
+    else {
+      this.device = new Device();
+    }
   }
 
-  async update(updateForm: NgForm){
-    if(updateForm.invalid) return;
+  submit(form: NgForm){
+    if(form.invalid) return;
+    if(this.device.id) this.update();
+    else this.createDevice()
+  }
 
-    try{
-      await this.http.updateDevice(this.device.id, this.device).toPromise();
-    }finally{
-      this.router.navigateByUrl('app/devices-list');
-    }
+  async update() {
+    await this.deviceService.updateDevice(this.device.id, this.device).pipe(finalize(()=>{
+      this.dialog.close(true);
+    })).toPromise();
+
+  }
+
+  async createDevice(){
+    await this.deviceService.createDevice(this.device).pipe(finalize(()=>{
+      this.dialog.close(true);
+    })).toPromise();
   }
 }

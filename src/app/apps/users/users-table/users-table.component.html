@@ -1,13 +1,6 @@
-<ngx-datatable
-class="material striped" 
-    [headerHeight]="headerHeight" 
-    [footerHeight]="50" 
-    [rowHeight]="rowHeight"
-    [scrollbarV]="true" 
-    [rows]="rows" 
-    [columns]="columns" 
-    [columnMode]="ColumnMode.force" 
-    style="height: 100%; width: 100%">
+<ngx-datatable class="material striped full-width" [headerHeight]="headerHeight" [footerHeight]="50"
+    [rowHeight]="rowHeight" [scrollbarV]="true" [rows]="rows" [columns]="columns" [columnMode]="ColumnMode.force"
+    style="height: calc(100vh - 150px); margin-top: 64px; margin-left: 16px; margin-right: 16px;">
 
 </ngx-datatable>
 

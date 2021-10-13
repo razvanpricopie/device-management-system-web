@@ -9,7 +9,6 @@ import { DeviceDetailsDialogComponent } from './device-details-dialog/device-det
 import { SharedModule } from 'src/shared/shared.module';
 import { DeviceUpdateDialogComponent } from './device-update-dialog/device-update-dialog.component';
 import { FormsModule } from '@angular/forms';
-import { DeviceCreateDialogComponent } from './device-create-dialog/device-create-dialog.component';
 
 
 @NgModule({
@@ -18,7 +17,6 @@ import { DeviceCreateDialogComponent } from './device-create-dialog/device-creat
     DevicesTableComponent,
     DeviceDetailsDialogComponent,
     DeviceUpdateDialogComponent,
-    DeviceCreateDialogComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +24,9 @@ import { DeviceCreateDialogComponent } from './device-create-dialog/device-creat
     NgxDatatableModule,
     SharedModule,
     FormsModule
+  ],
+  entryComponents: [
+    DeviceUpdateDialogComponent
   ]
 })
 export class DevicesModule { }

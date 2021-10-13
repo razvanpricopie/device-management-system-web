@@ -10,7 +10,7 @@ import { UserService } from 'src/app/libs/services/user.service';
 export class UsersTableComponent implements OnInit {
   public rows: any = [];
   public columns: TableColumn[] = [];
-  public rowHeight = 40;
+  public rowHeight = 55;
   public headerHeight = 40;
 
   ColumnMode = ColumnMode;
@@ -42,20 +42,20 @@ export class UsersTableComponent implements OnInit {
         name: 'Email',
         cellTemplate: this.emailTmpl,
         sortable: false,
-        width: 20,
+        width: 5,
         resizeable: false,
       },
       {
         name: 'Name',
         cellTemplate: this.nameTmpl,
         sortable: false,
-        width: 30,
+        width: 5,
       },
       {
         name: 'Actions',
         cellTemplate: this.buttonsTmpl,
         sortable: false,
-        width: 30,
+        width: 10,
       },
     ];
   }

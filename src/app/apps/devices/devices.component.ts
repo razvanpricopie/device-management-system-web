@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DeviceCreateDialogComponent } from './device-create-dialog/device-create-dialog.component';
+import { DeviceUpdateDialogComponent } from './device-update-dialog/device-update-dialog.component';
 import { DevicesTableComponent } from './devices-table/devices-table.component';
 
 @Component({
@@ -17,12 +17,4 @@ export class DevicesComponent implements OnInit {
 
   async ngOnInit() {
   }
-
-  openAddDeviceDialog(){
-    this.dialog.open(DeviceCreateDialogComponent, {
-      width: '500px',
-    });
-  }
-
-
 }

@@ -17,7 +17,7 @@ export class AuthService {
   public jwtUser: Observable<JwtUser>;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.userSubject = new BehaviorSubject<JwtUser>(JSON.parse(localStorage.getItem('email') || '{}'));
+    this.userSubject = new BehaviorSubject<JwtUser>(JSON.parse(localStorage.getItem('user') || '{}'));
     this.jwtUser = this.userSubject.asObservable();
   }
 
@@ -26,9 +26,10 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post(`${this.basePath}/api/auth/login`, { email: email, password: password }).pipe(map((email: any) => {
-      localStorage.setItem('email', JSON.stringify(email));
-      this.userSubject.next(email);
+    return this.http.post(`${this.basePath}/api/auth/login`, { email: email, password: password }).pipe(map((user: any) => {
+      localStorage.setItem('user', JSON.stringify(user));
+      this.userSubject.next(user);
+      return user;
     }));
   }
 

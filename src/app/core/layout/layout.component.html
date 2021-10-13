@@ -33,7 +33,7 @@
                     <p mat-line>GPS tracker</p>
                 </a> -->
 
-                <a mat-list-item [routerLink]="['/app/users-list']" routerLinkActive="active">
+                <a *ngIf="isAdmin" mat-list-item [routerLink]="['/app/users-list']" routerLinkActive="active">
                     <mat-icon mat-list-icon> business </mat-icon>
                     <p mat-line>Users List</p>
                 </a>

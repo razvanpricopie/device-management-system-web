@@ -1,5 +1,6 @@
 export class JwtUser{
+    id?: string;
     token?: string;
     email?: string;
-    role?: string;
+    roles?: string;
 }

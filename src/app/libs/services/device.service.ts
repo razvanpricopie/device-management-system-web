@@ -30,4 +30,12 @@ export class DeviceService {
   deleteDevice(id: number){
     return this.http.delete(`${this.basePath}/api/device/${id}`);
   }
+
+  assignDevice(id: number, deviceAssigned: Device){
+    return this.http.put(`${this.basePath}/api/device/AssignDevice/${id}`, deviceAssigned);
+  }
+
+  unassignDevice(id: number, unassignedDevice: Device){
+    return this.http.put(`${this.basePath}/api/device/UnassignDevice/${id}`, unassignedDevice);
+  }
 }
